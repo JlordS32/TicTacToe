@@ -26,7 +26,7 @@ const Board = () => {
    // Check game status each time board is update
    useEffect(() => {
       const gameStatus: GameStatus = handleGameStates(board, currentPlayer);
-      
+      console.log(gameStatus);
    }, [board]);
 
    return (
