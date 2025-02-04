@@ -1,0 +1,93 @@
+@use "../scss/_utility.scss" as *;
+
+.primary {
+   @include flex;
+   width: 29.28571rem;
+   height: 4.78571rem;
+   border-radius: 1.07143rem;
+   color: var(--dark-navy);
+   cursor: pointer;
+   transition: all 0.2s ease-in;
+   background-color: var(--yellow);
+   box-shadow: 0px -8px 0px 0px #cc8b13 inset;
+
+   span {
+      flex: 1;
+      color: var(--dark-navy);
+      text-align: center;
+      font-size: 1.42857rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 0.08929rem;
+      text-transform: uppercase;
+   }
+
+   &:hover {
+      transform: scale(1.01);
+   }
+
+   &:active {
+      transform: scale(0.99);
+   }
+}
+
+.primary.one,
+.secondary.one {
+   background-color: var(--yellow);
+   box-shadow: 0px -8px 0px 0px #cc8b13 inset;
+
+   &:hover {
+      background-color: var(--soft-yellow);
+   }
+}
+
+.primary.two {
+   background-color: var(--blue-green);
+   box-shadow: 0px -8px 0px 0px #118c87 inset;
+
+   &:hover {
+      background-color: var(--soft-blue-green);
+   }
+}
+
+.secondary {
+   @include flex;
+   width: 16.14286rem;
+   height: 3.71429rem;
+   border-radius: 0.71429rem;
+   color: var(--dark-navy);
+   cursor: pointer;
+   transition: all 0.2s ease-in;
+   background-color: var(--yellow);
+   box-shadow: 0px -4px 0px 0px #cc8b13 inset;
+
+   span {
+      flex: 1;
+      color: var(--dark-navy);
+      text-align: center;
+      font-size: 1.42857rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 0.07143rem;
+      text-transform: uppercase;
+   }
+
+   &:hover {
+      transform: scale(1.01);
+   }
+
+   &:active {
+      transform: scale(0.99);
+   }
+}
+
+.secondary.two {
+   background-color: var(--silver);
+   box-shadow: 0px -8px 0px 0px #6B8997 inset;
+
+   &:hover {
+      background-color: var(--soft-silver);
+   }
+}

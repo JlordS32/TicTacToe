@@ -1,0 +1,21 @@
+@use "../scss/_utility.scss" as *;
+
+.retry {
+   @include flex;
+   padding: 1.1rem;
+   border-radius: 1.07143rem;
+   background-color: var(--silver);
+   color: var(--dark-navy);
+   cursor: pointer;
+   transition: all 0.2s ease-in;
+   box-shadow: 0px -4px 0px 0px #6B8997 inset;
+
+   &:hover {
+      transform: scale(1.025);
+      background-color: var(--soft-silver);
+   }
+
+   &:active {
+      transform: scale(0.99);
+   }
+}

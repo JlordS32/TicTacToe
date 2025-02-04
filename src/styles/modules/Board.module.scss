@@ -1,0 +1,14 @@
+.board {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   grid-template-rows: repeat(3, 1fr);
+   height: 20rem;
+   width: 50%;
+   gap: 1rem;
+
+   .cell {
+      background-color: red;
+      cursor: pointer;
+   }
+}
+
