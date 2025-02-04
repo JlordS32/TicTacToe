@@ -1,33 +1,37 @@
 import { useState, useEffect } from "react";
-import { BoardType, PlayerType, GameStatus } from "../../types/GameType";
+import {
+   BoardType,
+   PlayerType,
+   GameStatus,
+   Player,
+} from "../../types/GameType";
 import styles from "../../styles/modules/Board.module.scss";
-import { handleGameStates } from "../../handler/handleGameStates";
+import { handleGameStates } from "../../utils/handleGameStates";
+import TicTacToe from "../../utils/class/Tictactoe";
 
-const Board = () => {
-   const [board, setBoard] = useState<BoardType[][]>(
-      Array.from({ length: 3 }, () => Array(3).fill("") as BoardType[])
-   );
-   const [currentPlayer, setCurrentPlayer] = useState<PlayerType>("X");
+const Board = ({ startingPlayer = 1 }: { startingPlayer: Player }) => {
+   const [game, setGame] = useState<TicTacToe>(new TicTacToe(startingPlayer));
+   const { board, player, enemyPlayer } = game;
+   const [currentPlayer, setCurrentPlayer] = useState<Player>(startingPlayer);
 
    function handleClick(rowIndex: number, cellIndex: number): void {
       if (board[rowIndex][cellIndex] !== "") return;
 
-      // Place the player's mark on the board.
-      setBoard((prevBoard) => {
-         const newBoard = [...prevBoard];
-         newBoard[rowIndex][cellIndex] = currentPlayer;
-         return newBoard;
-      });
+      const newBoard: BoardType = [...board];
+      newBoard[rowIndex][cellIndex] = currentPlayer.type;
 
-      // Toggle player to the next one.
-      setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+      updateGame(newBoard);
+      setCurrentPlayer(currentPlayer.id=== 1 ? 2 : 1);
+   }
+
+   function updateGame(newBoard: BoardType) {
+      setGame({ ...game, board: newBoard });
    }
 
    // Check game status each time board is update
    useEffect(() => {
-      const gameStatus: GameStatus = handleGameStates(board, currentPlayer);
-      console.log(gameStatus);
-   }, [board]);
+      console.log(game.board);
+   }, []);
 
    return (
       <div className={styles.board}>
