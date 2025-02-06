@@ -1,13 +1,12 @@
-export type PlayerType = "X" | "O" | "";
-export type Player = { id: number; type: PlayerType };
+export type BoardSymbol = "X" | "O" | "";
 export type BoardType = [
-   [PlayerType, PlayerType, PlayerType],
-   [PlayerType, PlayerType, PlayerType],
-   [PlayerType, PlayerType, PlayerType]
+   [BoardSymbol, BoardSymbol, BoardSymbol],
+   [BoardSymbol, BoardSymbol, BoardSymbol],
+   [BoardSymbol, BoardSymbol, BoardSymbol]
 ];
 export type GameState = "playing" | "won" | "draw";
 export type GameStatus = {
-   player: PlayerType;
+   player: BoardSymbol;
    gameState: GameState;
-   winner: PlayerType | null;
+   winner: BoardSymbol | null;
 };

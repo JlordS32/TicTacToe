@@ -1,9 +1,22 @@
+.boardContainer {
+   width: 50%;
+   height: 30rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   gap: 1rem;
+
+   > h1 {
+      align-self: center;
+   }
+}
+
 .board {
    display: grid;
    grid-template-columns: repeat(3, 1fr);
    grid-template-rows: repeat(3, 1fr);
-   height: 20rem;
-   width: 50%;
+   flex: 1;
+   min-width: 25rem;
    gap: 1rem;
 
    .cell {

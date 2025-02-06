@@ -5,7 +5,7 @@ import Menu from "./components/gameStates/Menu";
 const App = () => {
    return (
       <main className={styles.main}>
-         <Board />
+         <Board player="X" enemyPlayer="O" />
       </main>
    );
 };
