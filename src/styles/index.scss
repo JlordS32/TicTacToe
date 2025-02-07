@@ -1,86 +1,85 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
 :root {
-  --blue-green: hsl(178, 60%, 48%);
-  --soft-blue-green: hsl(178, 75%, 65%);
-  --yellow: hsl(39, 88%, 58%);
-  --soft-yellow: hsl(39, 100%, 68%);
-  --dark-navy: hsl(202, 32%, 15%);
-  --semi-dark-navy: hsl(199, 35%, 19%);
-  --silver: hsl(198, 23%, 72%);
-  --soft-silver: hsl(197, 33%, 89%);
+   --blue-green: hsl(178, 60%, 48%);
+   --soft-blue-green: hsl(178, 75%, 65%);
+   --yellow: hsl(39, 88%, 58%);
+   --soft-yellow: hsl(39, 100%, 68%);
+   --dark-navy: hsl(202, 32%, 15%);
+   --semi-dark-navy: hsl(199, 35%, 19%);
+   --silver: hsl(198, 23%, 72%);
+   --soft-silver: hsl(197, 33%, 89%);
 
-  font-family: "Outfit", serif;
-  font-style: normal;
-  font-size: 14px;
-  color: var(--silver);
-  font-feature-settings: 'liga' off, 'clig' off;
-  background-color: var(--dark-navy);
+   font-family: "Outfit", serif;
+   font-style: normal;
+   font-size: 14px;
+   color: var(--silver);
+   font-feature-settings: "liga" off, "clig" off;
+   background-color: var(--dark-navy);
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-weight: 700;
-  line-height: normal;
+   font-weight: 700;
+   line-height: normal;
 }
 
 h1,
 .heading-l {
-  font-size: 2.85714rem;
-  letter-spacing: 0.17857rem;
+   font-size: 2.85714rem;
+   letter-spacing: 0.17857rem;
 }
 
 h2,
 .heading-m {
-  font-size: 1.71429rem;
-  letter-spacing: 0.10714rem;
+   font-size: 1.71429rem;
+   letter-spacing: 0.10714rem;
 }
 
 h3,
 .heading-s {
-  font-size: 1.42857rem;
-  letter-spacing: 0.08929rem;
+   font-size: 1.42857rem;
+   letter-spacing: 0.08929rem;
 }
 
 h4,
 .heading-xs {
-  font-size: 1.14286rem;
-  letter-spacing: 0.07143rem;
+   font-size: 1.14286rem;
+   letter-spacing: 0.07143rem;
 }
 
 p {
-  color: var(--silver);
-  font-weight: 400;
-  letter-spacing: 0.0625rem;
+   color: var(--silver);
+   font-weight: 400;
+   letter-spacing: 0.0625rem;
 }
 
 button {
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  overflow: visible;
-  text-align: inherit;
+   border: none;
+   margin: 0;
+   padding: 0;
+   width: auto;
+   overflow: visible;
+   text-align: inherit;
 
-  background: transparent;
+   background: transparent;
 
-  /* inherit font & color from ancestor */
-  color: inherit;
-  font: inherit;
+   /* inherit font & color from ancestor */
+   color: inherit;
+   font: inherit;
 
-  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
-  line-height: normal;
+   /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+   line-height: normal;
 
-  /* Corrects font smoothing for webkit */
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-
+   /* Corrects font smoothing for webkit */
+   -webkit-font-smoothing: inherit;
+   -moz-osx-font-smoothing: inherit;
 }

@@ -1,6 +1,15 @@
+import { useState } from "react";
+import { BoardSymbol } from "../../types/GameType";
 import styles from "../../styles/modules/Menu.module.scss";
+import Button from "../Button";
 
 const Menu = () => {
+   const [playerMark, setPlayerMark] = useState("X");
+
+   const handleMarkSelection = (mark: BoardSymbol) => {
+      setPlayerMark(mark);
+   };
+
    return (
       <div className={styles.container}>
          <div className={styles.logo}>
@@ -9,20 +18,12 @@ const Menu = () => {
          <div className={styles.playerSelector}>
             <h3>Pick the player 1's mark</h3>
             <div className={styles.markSelector}>
-               <div className={styles.XPlayer}>
-                  <svg
-                     width="64"
-                     height="64"
-                     xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 64 64"
-                  >
-                     <path
-                        d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z"
-                        fill="currentColor"
-                     />
-                  </svg>
-               </div>
-               <div className={styles.OPlayer}>
+               <div
+                  className={`${styles.XPlayer} ${
+                     playerMark === "X" ? styles.active : ""
+                  }`}
+                  onClick={() => handleMarkSelection("X")}
+               >
                   <svg
                      width="64"
                      height="64"
@@ -35,14 +36,31 @@ const Menu = () => {
                      />
                   </svg>
                </div>
+               <div
+                  className={`${styles.OPlayer} ${
+                     playerMark === "O" ? styles.active : ""
+                  }`}
+                  onClick={() => handleMarkSelection("O")}
+               >
+                  <svg
+                     width="64"
+                     height="64"
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 64 64"
+                  >
+                     <path
+                        d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z"
+                        fill="currentColor"
+                     />
+                  </svg>
+               </div>
             </div>
             <p>Remember : X goes first</p>
          </div>
          <div className={styles.modeSelector}>
-            <div></div>
-            <div></div>
+            <Button type="primary" version="one" text="New Game (VS CPU)"/>
+            <Button type="primary" version="two" text="New Game (VS Player)"/>
          </div>
-         .game
       </div>
    );
 };
