@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
    BoardType,
    BoardSymbol,
@@ -13,6 +13,7 @@ import {
 } from "../../utils/getRandomComputerMove";
 import { handleGameStates } from "../../utils/handleGameStates";
 import RetryButton from "../RetryButton";
+import { useGame } from "./Game";
 
 const COMPUTER_THINKING_TIME = 500;
 
@@ -22,19 +23,11 @@ const initialBoard: BoardType = [
    ["", "", ""],
 ];
 
-type BoardProps = {
-   player: BoardSymbol;
-   enemyPlayerType?: EnemyPlayerType;
-};
-
-const Board = ({
-   player,
-   enemyPlayerType = "human",
-}: BoardProps) => {
+const Board = () => {
+   const { gameStatus, setGameStatus, player, enemyPlayerType } = useGame();
    const enemyPlayer = player === "X" ? "O" : "X";
    const [currentPlayer, setCurrentPlayer] = useState<Players>();
    const [board, setBoard] = useState<BoardType>(initialBoard);
-   const [gameStatus, setGameStatus] = useState<GameStatus>();
    const [computerThinking, setComputerThinking] = useState<boolean>(false);
 
    // Player Move
@@ -68,8 +61,10 @@ const Board = ({
          ["", "", ""],
       ]);
       setCurrentPlayer(1);
-      setGameStatus(undefined); // Reset game state
+      setGameStatus(undefined);
    }
+
+   useEffect(() => {}, [gameStatus]);
 
    // Computer Move
    useEffect(() => {
@@ -106,11 +101,6 @@ const Board = ({
          setCurrentPlayer(2);
       }
    }, []);
-
-   useEffect(() => {
-      console.log(board);
-   }, [board]);
-
    return (
       <div className={styles.boardContainer}>
          <div className={styles.header}>
