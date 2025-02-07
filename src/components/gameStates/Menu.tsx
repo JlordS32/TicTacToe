@@ -3,6 +3,7 @@ import { BoardSymbol, EnemyPlayerType } from "../../types/GameType";
 import styles from "../../styles/modules/Menu.module.scss";
 import Button from "../Button";
 import Board from "./Board";
+import Backdrop from "../Backdrop";
 
 const Menu = () => {
    const [playerMark, setPlayerMark] = useState<BoardSymbol>("X");
@@ -20,10 +21,12 @@ const Menu = () => {
 
    if (gameStarted) {
       return (
-         <Board
-            player={playerMark}
-            enemyPlayerType={enemyPlayerType}
-         />
+         <>
+            <Backdrop>
+               <div>Hello</div>
+            </Backdrop>
+            <Board player={playerMark} enemyPlayerType={enemyPlayerType} />
+         </>
       );
    }
 
