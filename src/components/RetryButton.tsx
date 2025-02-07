@@ -2,9 +2,13 @@ import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../styles/modules/RetryButton.module.scss";
 
-const RetryButton = () => {
+type RetryButtonType = {
+   onClick?: () => void;
+};
+
+const RetryButton = ({ onClick }: RetryButtonType) => {
    return (
-      <button className={styles.retry}>
+      <button className={styles.retry} onClick={onClick}>
          <FontAwesomeIcon
             className={styles.icon}
             icon={faRotateRight}
@@ -15,4 +19,3 @@ const RetryButton = () => {
 };
 
 export default RetryButton;
-      

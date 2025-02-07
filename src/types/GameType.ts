@@ -10,3 +10,5 @@ export type GameStatus = {
    gameState: GameState;
    winner: BoardSymbol | null;
 };
+export type Players = 1 | 2;
+export type EnemyPlayerType = "human" | "computer";

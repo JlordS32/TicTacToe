@@ -1,6 +1,6 @@
+@use "../scss/_utility.scss" as *;
+
 .boardContainer {
-   width: 50%;
-   height: 30rem;
    display: flex;
    flex-direction: column;
    justify-content: center;
@@ -16,11 +16,34 @@
    grid-template-columns: repeat(3, 1fr);
    grid-template-rows: repeat(3, 1fr);
    flex: 1;
-   min-width: 25rem;
-   gap: 1rem;
+   gap: 1.15rem 1.45rem;
 
    .cell {
-      background-color: red;
+      @include flex;
+      background-color: var(--semi-dark-navy);
+      border-radius: 1.07143rem;
+      width: 10rem;
+      height: 10rem;
+      box-shadow: 0px -8px 0px 0px #10212A inset;
       cursor: pointer;
+   }
+}
+
+.header {
+   @include flex(row, space-between, center);
+
+   .turn {
+      @include flex;
+      background-color: var(--semi-dark-navy);
+      height: 3rem;
+      padding: 2.15rem;
+      border-radius: 0.71429rem;
+      box-shadow: 0px -4px 0px 0px #10212A inset;
+      gap: 1rem;
+      text-transform: uppercase;
+
+      svg {
+         width: 1.42857rem;
+      }
    }
 }
