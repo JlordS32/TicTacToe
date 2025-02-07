@@ -1,10 +1,10 @@
 import styles from "./styles/modules/Main.module.scss";
-import Menu from "./components/gameStates/Menu";
+import Game from "./components/gameStates/Game";
 
 const App = () => {
    return (
       <main className={styles.main}>
-         <Menu />
+         <Game />
       </main>
    );
 };
