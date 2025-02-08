@@ -9,6 +9,7 @@ type GameContextType = {
    gameStatus: GameStatus | undefined;
    setGameStatus: React.Dispatch<React.SetStateAction<GameStatus | undefined>>;
    player: BoardSymbol;
+   enemyPlayer: BoardSymbol;
    enemyPlayerType: EnemyPlayerType;
 };
 
@@ -16,6 +17,7 @@ const GameContext = createContext<GameContextType>({
    gameStatus: undefined,
    setGameStatus: () => {},
    player: "X",
+   enemyPlayer: "O",
    enemyPlayerType: "human",
 });
 
@@ -47,6 +49,7 @@ const Game = () => {
                      gameStatus,
                      setGameStatus,
                      player: playerMark,
+                     enemyPlayer: playerMark === "X" ? "O" : "X",
                      enemyPlayerType,
                   }}
                >
@@ -60,6 +63,7 @@ const Game = () => {
                   gameStatus,
                   setGameStatus,
                   player: playerMark,
+                  enemyPlayer: playerMark === "X" ? "O" : "X",
                   enemyPlayerType,
                }}
             >

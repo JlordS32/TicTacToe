@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { BoardType, BoardSymbol } from "../../types/GameType";
 import styles from "../../styles/modules/Board.module.scss";
 import {
@@ -11,18 +11,50 @@ import { useGame } from "./Game";
 
 const COMPUTER_THINKING_TIME = 500;
 
-const initialBoard: BoardType = [
-   ["", "", ""],
-   ["", "", ""],
-   ["", "", ""],
-];
+type State = {
+   board: BoardType;
+   currentPlayer: BoardSymbol;
+   computerThinking: boolean;
+};
+
+type Action =
+   | { type: "SET"; field: keyof State; value: State[keyof State] }
+   | { type: "RESET" };
+
+const initialState: State = {
+   board: [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+   ],
+   currentPlayer: "X",
+   computerThinking: false,
+};
+
+const reducer = (state: State, action: Action) => {
+   switch (action.type) {
+      case "SET":
+         return { ...state, [action.field]: action.value };
+      case "RESET":
+         return initialState;
+      default:
+         return state;
+   }
+};
 
 const Board = () => {
-   const { gameStatus, setGameStatus, player, enemyPlayerType } = useGame();
-   const enemyPlayer = player === "X" ? "O" : "X";
-   const [board, setBoard] = useState<BoardType>(initialBoard);
-   const [computerThinking, setComputerThinking] = useState<boolean>(false);
-   const [currentPlayer, setCurrentPlayer] = useState<BoardSymbol>("X");
+   const { gameStatus, setGameStatus, player, enemyPlayerType, enemyPlayer } =
+      useGame();
+   const [state, dispatch] = useReducer(reducer, initialState);
+   const { board, currentPlayer, computerThinking } = state;
+
+   function updateState(field: keyof State, value: State[keyof State]): void {
+      dispatch({ type: "SET", field, value });
+   }
+
+   function resetState() {
+      dispatch({ type: "RESET" });
+   }
 
    // Player Move
    function handleClick(rowIndex: number, cellIndex: number): void {
@@ -35,23 +67,17 @@ const Board = () => {
 
       // Update board
       const newBoard: BoardType = [...board];
-      newBoard[rowIndex][cellIndex] = currentPlayer === player ? player : enemyPlayer;
+      newBoard[rowIndex][cellIndex] =
+         currentPlayer === player ? player : enemyPlayer;
 
       // Update state
-      setBoard(newBoard);
-      setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
-      const status = handleGameStates(newBoard, currentPlayer === player ? player : enemyPlayer);
+      updateState("board", newBoard);
+      updateState("currentPlayer", currentPlayer === "X" ? "O" : "X");
+      const status = handleGameStates(
+         newBoard,
+         currentPlayer === player ? player : enemyPlayer
+      );
       setGameStatus(status);
-   }
-
-   function emptyBoard(): void {
-      setBoard([
-         ["", "", ""],
-         ["", "", ""],
-         ["", "", ""],
-      ]);
-      setCurrentPlayer("X");
-      setGameStatus(undefined);
    }
 
    // Computer Move
@@ -65,24 +91,24 @@ const Board = () => {
          return;
 
       if (currentPlayer === enemyPlayer) {
-         setComputerThinking(true);
+         updateState("computerThinking", true);
          setTimeout(() => {
             // Get computer move
             const computerMoveBoard = getRandomComputerMove(board, enemyPlayer);
 
             // Update state
-            setBoard(computerMoveBoard);
-            setCurrentPlayer(player);
+            updateState("board", computerMoveBoard);
+            updateState("currentPlayer", player);
             const status = handleGameStates(computerMoveBoard, enemyPlayer);
             setGameStatus(status);
-            setComputerThinking(false);
+            updateState("computerThinking", false);
          }, COMPUTER_THINKING_TIME);
       }
    }, [currentPlayer]);
 
    useEffect(() => {
       console.log(currentPlayer);
-   }, [currentPlayer])
+   }, [currentPlayer]);
 
    // Set starting player
    useEffect(() => {
@@ -123,7 +149,7 @@ const Board = () => {
                <h4>Turn</h4>
             </div>
             <div className={styles.retry}>
-               <RetryButton onClick={emptyBoard} />
+               <RetryButton onClick={resetState} />
             </div>
          </div>
          <div className={styles.board}>
