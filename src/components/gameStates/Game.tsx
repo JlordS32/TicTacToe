@@ -42,9 +42,18 @@ const Game = () => {
          <>
             {gameStatus?.gameState === "won" ||
             gameStatus?.gameState === "draw" ? (
-               <Backdrop data={gameStatus ?? undefined}>
-                  <Dialog />
-               </Backdrop>
+               <GameContext.Provider
+                  value={{
+                     gameStatus,
+                     setGameStatus,
+                     player: playerMark,
+                     enemyPlayerType,
+                  }}
+               >
+                  <Backdrop>
+                     <Dialog />
+                  </Backdrop>
+               </GameContext.Provider>
             ) : null}
             <GameContext.Provider
                value={{

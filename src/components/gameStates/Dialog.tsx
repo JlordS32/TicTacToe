@@ -1,18 +1,48 @@
 import { useEffect } from "react";
 import styles from "../../styles/modules/Dialog.module.scss";
-import { useBackdropData } from "../Backdrop";
 import Button from "../Button";
+import { useGame } from "./Game";
 
 const Dialog = () => {
-   const data = useBackdropData();
+   const { gameStatus, player } = useGame();
+
+   useEffect(() => {
+      console.log(gameStatus);
+   }, [gameStatus]);
 
    return (
       <div className={styles.dialog}>
          <div>
-            <h4 className={styles.message}>Oh no, you lost...</h4>
+            {gameStatus?.gameState === "won" && (
+               <h4 className={styles.message}>
+                  {gameStatus?.winner === player
+                     ? "You won!"
+                     : "Oh no, you lost..."}
+               </h4>
+            )}
             <div className={styles.winner}>
-               <img src="/images/icon-o.svg" alt="lose" />
-               <h1 style={{ color: "var(--yellow)" }}>Takes the round</h1>
+               {gameStatus?.gameState === "won" && (
+                  <>
+                     <img
+                        src={`/images/icon-${
+                           gameStatus?.winner === "X" ? "x" : "o"
+                        }.svg`}
+                        alt="lose"
+                     />
+                     <h1
+                        style={{
+                           color: `${
+                              gameStatus?.winner === "X"
+                                 ? "var(--blue-green)"
+                                 : "var(--yellow)"
+                           }`,
+                        }}
+                     >
+                        Takes the round
+                     </h1>
+                  </>
+               )}
+               {gameStatus?.gameState === "draw" && <h1>Round Tied</h1>}
             </div>
             <div className={styles.buttons}>
                <Button text="Quit" type="secondary" version="two" />
