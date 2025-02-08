@@ -54,7 +54,7 @@
 .secondary {
    @include flex;
    height: 3.71429rem;
-   width: 100%;
+   padding: 2.5rem 1.5rem;
    border-radius: 0.71429rem;
    color: var(--dark-navy);
    cursor: pointer;

@@ -1,11 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import {
-   BoardType,
-   BoardSymbol,
-   GameStatus,
-   EnemyPlayerType,
-   Players,
-} from "../../types/GameType";
+import { useEffect, useState } from "react";
+import { BoardType, BoardSymbol } from "../../types/GameType";
 import styles from "../../styles/modules/Board.module.scss";
 import {
    getRandomComputerMove,
@@ -26,9 +20,9 @@ const initialBoard: BoardType = [
 const Board = () => {
    const { gameStatus, setGameStatus, player, enemyPlayerType } = useGame();
    const enemyPlayer = player === "X" ? "O" : "X";
-   const [currentPlayer, setCurrentPlayer] = useState<Players>();
    const [board, setBoard] = useState<BoardType>(initialBoard);
    const [computerThinking, setComputerThinking] = useState<boolean>(false);
+   const [currentPlayer, setCurrentPlayer] = useState<BoardSymbol>("X");
 
    // Player Move
    function handleClick(rowIndex: number, cellIndex: number): void {
@@ -41,16 +35,12 @@ const Board = () => {
 
       // Update board
       const newBoard: BoardType = [...board];
-      newBoard[rowIndex][cellIndex] =
-         currentPlayer === 1 ? player : enemyPlayer;
+      newBoard[rowIndex][cellIndex] = currentPlayer === player ? player : enemyPlayer;
 
       // Update state
       setBoard(newBoard);
-      setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
-      const status = handleGameStates(
-         newBoard,
-         currentPlayer === 1 ? player : enemyPlayer
-      );
+      setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+      const status = handleGameStates(newBoard, currentPlayer === player ? player : enemyPlayer);
       setGameStatus(status);
    }
 
@@ -60,23 +50,21 @@ const Board = () => {
          ["", "", ""],
          ["", "", ""],
       ]);
-      setCurrentPlayer(1);
+      setCurrentPlayer("X");
       setGameStatus(undefined);
    }
-
-   useEffect(() => {}, [gameStatus]);
 
    // Computer Move
    useEffect(() => {
       if (enemyPlayerType === "human") return;
-
       if (
          gameStatus?.gameState === "won" ||
          isFullBoard(board) ||
-         currentPlayer === 1
+         currentPlayer === player
       )
          return;
-      if (currentPlayer === 2) {
+
+      if (currentPlayer === enemyPlayer) {
          setComputerThinking(true);
          setTimeout(() => {
             // Get computer move
@@ -84,7 +72,7 @@ const Board = () => {
 
             // Update state
             setBoard(computerMoveBoard);
-            setCurrentPlayer(1);
+            setCurrentPlayer(player);
             const status = handleGameStates(computerMoveBoard, enemyPlayer);
             setGameStatus(status);
             setComputerThinking(false);
@@ -92,14 +80,13 @@ const Board = () => {
       }
    }, [currentPlayer]);
 
+   useEffect(() => {
+      console.log(currentPlayer);
+   }, [currentPlayer])
+
    // Set starting player
    useEffect(() => {
       setGameStatus(handleGameStates(board, player));
-
-      if (player === "X") setCurrentPlayer(1);
-      if (player === "O") {
-         setCurrentPlayer(2);
-      }
    }, []);
    return (
       <div className={styles.boardContainer}>
@@ -108,7 +95,7 @@ const Board = () => {
                <img src="/images/logo.svg" alt="Logo" />
             </div>
             <div className={styles.turn}>
-               {currentPlayer === 1 ? (
+               {currentPlayer === "X" ? (
                   <svg
                      width="64"
                      height="64"

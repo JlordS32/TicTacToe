@@ -3,6 +3,7 @@ import { BoardSymbol, EnemyPlayerType, GameStatus } from "../../types/GameType";
 import Board from "./Board";
 import Backdrop from "../Backdrop";
 import Menu from "./Menu";
+import Dialog from "./Dialog";
 
 type GameContextType = {
    gameStatus: GameStatus | undefined;
@@ -36,16 +37,14 @@ const Game = () => {
       setGameStarted(true);
    };
 
-   useEffect(() => {
-      console.log(gameStatus?.gameState);
-   }, [gameStatus]);
-
    if (gameStarted) {
       return (
          <>
             {gameStatus?.gameState === "won" ||
             gameStatus?.gameState === "draw" ? (
-               <Backdrop />
+               <Backdrop data={gameStatus ?? undefined}>
+                  <Dialog />
+               </Backdrop>
             ) : null}
             <GameContext.Provider
                value={{

@@ -19,7 +19,7 @@ const Menu = ({
             <img src="/images/logo.svg" alt="Logo" />
          </div>
          <div className={styles.playerSelector}>
-            <h3>Pick the player 1's mark</h3>
+            <h3>Pick the player's mark</h3>
             <div className={styles.markSelector}>
                <div
                   className={`${styles.XPlayer} ${
