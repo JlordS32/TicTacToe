@@ -1,21 +1,7 @@
 @use "../scss/_utility.scss" as *;
 
-.boardContainer {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   gap: 1rem;
-
-   > h1 {
-      align-self: center;
-   }
-}
-
 .board {
-   display: grid;
-   grid-template-columns: repeat(3, 1fr);
-   grid-template-rows: repeat(3, 1fr);
-   flex: 1;
+   @include grid(3, 3);
    gap: 1.15rem 1.45rem;
 
    .cell {
@@ -24,13 +10,25 @@
       border-radius: 1.07143rem;
       width: 10rem;
       height: 10rem;
-      box-shadow: 0px -8px 0px 0px #10212A inset;
+      box-shadow: 0px -8px 0px 0px #10212a inset;
       cursor: pointer;
    }
 }
 
 .header {
-   @include flex(row, space-between, center);
+   @include grid(3);
+   gap: 0 1.45rem;
+   margin-bottom: 1.45rem;
+
+   .logo,
+   .retry,
+   .turn {
+      align-self: center;
+   }
+
+   .retry {
+      justify-self: end;
+   }
 
    .turn {
       @include flex;
@@ -38,12 +36,44 @@
       height: 3rem;
       padding: 2.15rem;
       border-radius: 0.71429rem;
-      box-shadow: 0px -4px 0px 0px #10212A inset;
+      box-shadow: 0px -4px 0px 0px #10212a inset;
       gap: 1rem;
       text-transform: uppercase;
 
       svg {
          width: 1.42857rem;
       }
+   }
+}
+
+.scoreBoard {
+   @include grid(3);
+   gap: 0 1.45rem;
+   margin-top: 1.45rem;
+   color: var(--dark-navy);
+
+   > div {
+      @include flex(column);
+      border-radius: 1.08rem;
+      flex: 1;
+      padding: 0.93rem;
+   }
+
+   > div p {
+      color: var(--dark-navy);
+      text-align: center;
+      text-transform: uppercase;
+   }
+
+   .xWin {
+      background-color: var(--blue-green);
+   }
+
+   .oWin {
+      background-color: var(--yellow);
+   }
+
+   .ties {
+      background-color: var(--silver);
    }
 }

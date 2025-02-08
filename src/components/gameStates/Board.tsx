@@ -104,7 +104,7 @@ const Board = () => {
    return (
       <div className={styles.boardContainer}>
          <div className={styles.header}>
-            <div>
+            <div className={styles.logo}>
                <img src="/images/logo.svg" alt="Logo" />
             </div>
             <div className={styles.turn}>
@@ -152,6 +152,20 @@ const Board = () => {
                   </div>
                ))
             )}
+         </div>
+         <div className={styles.scoreBoard}>
+            <div className={styles.xWin}>
+               <p>X</p>
+               <h2>14</h2>
+            </div>
+            <div className={styles.ties}>
+               <p>Ties</p>
+               <h2>32</h2>
+            </div>
+            <div className={styles.oWin}>
+               <p>O</p>
+               <h2>11</h2>
+            </div>
          </div>
       </div>
    );
