@@ -1,11 +1,9 @@
-// computerMove.ts (or you can keep it as useRandom.ts and just modify)
 import { BoardSymbol, BoardType } from "../types/GameType";
 
 export const getRandomComputerMove = (board: BoardType, computerSymbol: BoardSymbol): BoardType => {        
     const newBoard: BoardType = [...board];
     let randomRow, randomColumn;
 
-    // Keep looping until we find an empty cell
     do {
         randomRow = Math.floor(Math.random() * 3);
         randomColumn = Math.floor(Math.random() * 3);
