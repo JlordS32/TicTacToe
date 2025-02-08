@@ -1,0 +1,6 @@
+@use "../scss/_utility.scss" as *;  
+
+.notFound {
+   @include flex(column);
+   gap: 2rem;
+}
