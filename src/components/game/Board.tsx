@@ -3,7 +3,7 @@ import styles from "../../styles/modules/Board.module.scss";
 
 // Hooks
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { useLocation } from "react-router";
 
 // Types
 import { Action, State } from "../../types/ReducerType";
@@ -23,11 +23,11 @@ import {
 import { handleGameStates } from "../../utils/handleGameStates";
 
 // Components
-import RetryButton from "../RetryButton";
 import Dialog from "./Dialog";
 import Backdrop from "../Backdrop";
-import XIcon from "../svgs/XIcon";
-import OIcon from "../svgs/OIcon";
+import GameHeader from "./board/GameHeader";
+import GameBoard from "./board/GameBoard";
+import GameScoreboard from "./board/GameScoreboard";
 
 // Global Constants
 const COMPUTER_THINKING_TIME = 500;
@@ -177,90 +177,20 @@ const Board = ({ state, dispatch }: BoardProps) => {
             </Backdrop>
          ) : null}
          <div className={styles.boardContainer}>
-            <div className={styles.header}>
-               <div className={styles.logo}>
-                  <Link to="/">
-                     <img src="/images/logo.svg" alt="Logo" />
-                  </Link>
-               </div>
-               <div className={styles.turn}>
-                  {currentPlayer === "X" ? <XIcon /> : <OIcon />}
-                  <h4>Turn</h4>
-               </div>
-               <div className={styles.retry}>
-                  <RetryButton onClick={resetState} />
-               </div>
-            </div>
-            <div className={styles.board}>
-               {board.map((row, rowIndex) =>
-                  row.map((cell, cellIndex) => (
-                     <div
-                        key={cellIndex}
-                        className={styles.cell}
-                        onClick={() => handleClick(rowIndex, cellIndex)}
-                        onMouseEnter={() =>
-                           setHoveredCell({ row: rowIndex, col: cellIndex })
-                        }
-                        onMouseLeave={() => setHoveredCell(null)}
-                     >
-                        {cell === "" &&
-                           hoveredCell?.row === rowIndex &&
-                           hoveredCell?.col === cellIndex &&
-                           !computerThinking &&
-                           currentPlayer === "X" && (
-                              <img
-                                 src="/images/icon-x-outline.svg"
-                                 alt="X Outline"
-                              />
-                           )}
-                        {cell === "" &&
-                           hoveredCell?.row === rowIndex &&
-                           hoveredCell?.col === cellIndex &&
-                           !computerThinking &&
-                           currentPlayer === "O" && (
-                              <img
-                                 src="/images/icon-o-outline.svg"
-                                 alt="O Outline"
-                              />
-                           )}
-                        {cell === "X" && (
-                           <img src="/images/icon-x.svg" alt="X" />
-                        )}
-                        {cell === "O" && (
-                           <img src="/images/icon-o.svg" alt="O" />
-                        )}
-                     </div>
-                  ))
-               )}
-            </div>
-            <div className={styles.scoreBoard}>
-               <div className={styles.xWin}>
-                  <p>
-                     X{" "}
-                     {player === "X"
-                        ? "(YOU)"
-                        : enemyPlayerType === "human"
-                        ? "(HUMAN)"
-                        : "(CPU)"}
-                  </p>
-                  <h2>{state.score.x}</h2>
-               </div>
-               <div className={styles.ties}>
-                  <p>Ties</p>
-                  <h2>{state.score.ties}</h2>
-               </div>
-               <div className={styles.oWin}>
-                  <p>
-                     O{" "}
-                     {player === "O"
-                        ? "(YOU)"
-                        : enemyPlayerType === "human"
-                        ? "(HUMAN)"
-                        : "(CPU)"}
-                  </p>
-                  <h2>{state.score.o}</h2>
-               </div>
-            </div>
+            <GameHeader currentPlayer={currentPlayer} resetState={resetState} />
+            <GameBoard
+               board={board}
+               handleClick={handleClick}
+               hoveredCell={hoveredCell}
+               setHoveredCell={setHoveredCell}
+               computerThinking={computerThinking}
+               currentPlayer={currentPlayer}
+            />
+            <GameScoreboard
+               state={state}
+               player={player}
+               enemyPlayerType={enemyPlayerType}
+            />
          </div>
       </>
    );
