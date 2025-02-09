@@ -28,6 +28,7 @@ import Backdrop from "../Backdrop";
 import GameHeader from "./board/GameHeader";
 import GameBoard from "./board/GameBoard";
 import GameScoreboard from "./board/GameScoreboard";
+import RestartDialog from "../RestartDialog";
 
 // Global Constants
 const COMPUTER_THINKING_TIME = 500;
@@ -42,6 +43,7 @@ const Board = ({ state, dispatch }: BoardProps) => {
    const [gameStatus, setGameStatus] = useState<GameStatus | undefined>(
       undefined
    );
+   const [restart, setRestart] = useState<boolean>(false);
    const [hoveredCell, setHoveredCell] = useState<{
       row: number;
       col: number;
@@ -176,8 +178,26 @@ const Board = ({ state, dispatch }: BoardProps) => {
                <Dialog gameStatus={gameStatus} goNextRound={goNextRound} />
             </Backdrop>
          ) : null}
+         {restart && (
+            <Backdrop>
+               <RestartDialog
+                  cancel={() => {
+                     setRestart(false);
+                  }}
+                  resetState={() => {
+                     resetState(true);
+                     setRestart(false);
+                  }}
+               />
+            </Backdrop>
+         )}
          <div className={styles.boardContainer}>
-            <GameHeader currentPlayer={currentPlayer} resetState={resetState} />
+            <GameHeader
+               currentPlayer={currentPlayer}
+               resetState={() => {
+                  setRestart(true);
+               }}
+            />
             <GameBoard
                board={board}
                handleClick={handleClick}
