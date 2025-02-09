@@ -21,7 +21,7 @@ const GameHeader = ({ currentPlayer, resetState }: GameHeaderType) => {
    return (
       <div className={styles.header}>
          <div className={styles.logo}>
-            <Link to="/">
+            <Link to="/" onClick={() => resetState()}>
                <img src="/images/logo.svg" alt="Logo" />
             </Link>
          </div>

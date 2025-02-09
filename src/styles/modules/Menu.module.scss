@@ -2,7 +2,7 @@
 
 .container {
    @include flex(column);
-   gap: 2.8rem;
+   gap: clamp(2.8rem, 1.5vw, 2.29rem);
    width: 32.85714rem;
 }
 

@@ -46,7 +46,7 @@ h2,
 
 h3,
 .heading-s {
-   font-size: 1.42857rem;
+   font-size: clamp(1.14286rem, 1.5vw, 1.42857rem);
    letter-spacing: 0.08929rem;
 }
 
@@ -60,6 +60,7 @@ p {
    color: var(--silver);
    font-weight: 400;
    letter-spacing: 0.0625rem;
+   text-transform: uppercase;
 }
 
 button {

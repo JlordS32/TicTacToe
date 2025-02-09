@@ -80,7 +80,7 @@ const Board = ({ state, dispatch }: BoardProps) => {
       });
       dispatch({ type: "SET", field: "currentPlayer", value: "X" });
       setGameStatus(undefined);
-
+      
       if (fullReset) {
          dispatch({
             type: "SET",
@@ -164,11 +164,7 @@ const Board = ({ state, dispatch }: BoardProps) => {
    // Set starting player
    useEffect(() => {
       setGameStatus(handleGameStates(board, player));
-   }, []);
-
-   useEffect(() => {
-      console.log(state.score);
-   }, [state]);
+   }, [])
 
    return (
       <>
@@ -185,8 +181,8 @@ const Board = ({ state, dispatch }: BoardProps) => {
                      setRestart(false);
                   }}
                   resetState={() => {
-                     resetState(true);
                      setRestart(false);
+                     resetState(true);
                   }}
                />
             </Backdrop>
