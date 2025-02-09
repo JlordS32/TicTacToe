@@ -1,73 +1,47 @@
-import { useEffect, useReducer, useState } from "react";
+// Styles
+import styles from "../../styles/modules/Board.module.scss";
+
+// Hooks
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router";
+
+// Types
+import { Action, State } from "../../types/ReducerType";
+import { GameType } from "./Game";
 import {
    BoardType,
    BoardSymbol,
    GameStatus,
    EnemyPlayerType,
 } from "../../types/GameType";
-import styles from "../../styles/modules/Board.module.scss";
+
+// Utils
 import {
    getRandomComputerMove,
    isFullBoard,
 } from "../../utils/getRandomComputerMove";
 import { handleGameStates } from "../../utils/handleGameStates";
+
+// Components
 import RetryButton from "../RetryButton";
 import Dialog from "./Dialog";
 import Backdrop from "../Backdrop";
-import { useLocation } from "react-router";
-import { GameType } from "./Game";
 import XIcon from "../svgs/XIcon";
 import OIcon from "../svgs/OIcon";
 
+// Global Constants
 const COMPUTER_THINKING_TIME = 500;
 
-type State = {
-   board: BoardType;
-   currentPlayer: BoardSymbol;
-   computerThinking: boolean;
-   score: {
-      x: number;
-      o: number;
-      ties: number;
-   };
+type BoardProps = {
+   state: State;
+   dispatch: React.Dispatch<Action>;
 };
 
-type Action =
-   | { type: "SET"; field: keyof State; value: State[keyof State] }
-   | { type: "RESET" };
-
-const initialState: State = {
-   board: [
-      ["", "", ""],
-      ["", "", ""],
-      ["", "", ""],
-   ],
-   currentPlayer: "X",
-   computerThinking: false,
-   score: {
-      x: 0,
-      o: 0,
-      ties: 0,
-   },
-};
-
-const reducer = (state: State, action: Action) => {
-   switch (action.type) {
-      case "SET":
-         return { ...state, [action.field]: action.value };
-      case "RESET":
-         return initialState;
-      default:
-         return state;
-   }
-};
-
-const Board = () => {
+const Board = ({ state, dispatch }: BoardProps) => {
    // Hooks
    const [gameStatus, setGameStatus] = useState<GameStatus | undefined>(
       undefined
    );
-   const [state, dispatch] = useReducer(reducer, initialState);
    const [hoveredCell, setHoveredCell] = useState<{
       row: number;
       col: number;
@@ -91,8 +65,48 @@ const Board = () => {
       dispatch({ type: "SET", field, value });
    }
 
-   function resetState() {
-      dispatch({ type: "RESET" });
+   // Reset game
+   function resetState(fullReset: boolean = false): void {
+      dispatch({
+         type: "SET",
+         field: "board",
+         value: [
+            ["", "", ""],
+            ["", "", ""],
+            ["", "", ""],
+         ],
+      });
+      dispatch({ type: "SET", field: "currentPlayer", value: "X" });
+      setGameStatus(undefined);
+
+      if (fullReset) {
+         dispatch({
+            type: "SET",
+            field: "score",
+            value: { x: 0, o: 0, ties: 0 },
+         });
+      }
+   }
+
+   // Go next round
+   function goNextRound() {
+      resetState();
+      updateState("round", state.round + 1);
+
+      if (gameStatus?.gameState === "won") {
+         updateState("score", {
+            ...state.score,
+            [gameStatus?.winner === "X" ? "x" : "o"]:
+               state.score[gameStatus?.winner === "X" ? "x" : "o"] + 1,
+         });
+      }
+
+      if (gameStatus?.gameState === "draw") {
+         updateState("score", {
+            ...state.score,
+            ["ties"]: state.score["ties"] + 1,
+         });
+      }
    }
 
    // Player Move
@@ -150,18 +164,24 @@ const Board = () => {
       setGameStatus(handleGameStates(board, player));
    }, []);
 
+   useEffect(() => {
+      console.log(state.score);
+   }, [state]);
+
    return (
       <>
          {gameStatus?.gameState === "won" ||
          gameStatus?.gameState === "draw" ? (
             <Backdrop>
-               <Dialog gameStatus={gameStatus} />
+               <Dialog gameStatus={gameStatus} goNextRound={goNextRound} />
             </Backdrop>
          ) : null}
          <div className={styles.boardContainer}>
             <div className={styles.header}>
                <div className={styles.logo}>
-                  <img src="/images/logo.svg" alt="Logo" />
+                  <Link to="/">
+                     <img src="/images/logo.svg" alt="Logo" />
+                  </Link>
                </div>
                <div className={styles.turn}>
                   {currentPlayer === "X" ? <XIcon /> : <OIcon />}

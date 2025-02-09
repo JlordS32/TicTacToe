@@ -1,12 +1,16 @@
 import styles from "../../styles/modules/Dialog.module.scss";
 import Button from "../Button";
 import { GameStatus } from "../../types/GameType";
+import { useNavigate } from "react-router";
 
 type DialogType = {
    gameStatus: GameStatus | undefined;
+   goNextRound: () => void;
 };
 
-const Dialog = ({ gameStatus }: DialogType) => {
+const Dialog = ({ gameStatus, goNextRound }: DialogType) => {
+   const navigate = useNavigate();
+
    return (
       <div className={styles.dialog}>
          <div>
@@ -42,8 +46,19 @@ const Dialog = ({ gameStatus }: DialogType) => {
                {gameStatus?.gameState === "draw" && <h1>Round Tied</h1>}
             </div>
             <div className={styles.buttons}>
-               <Button text="Quit" type="secondary" version="two" />
-               <Button text="Next round" type="secondary" />
+               <Button
+                  text="Quit"
+                  type="secondary"
+                  version="two"
+                  onClick={() => {
+                     navigate("/");
+                  }}
+               />
+               <Button
+                  text="Next round"
+                  type="secondary"
+                  onClick={goNextRound}
+               />
             </div>
          </div>
       </div>
