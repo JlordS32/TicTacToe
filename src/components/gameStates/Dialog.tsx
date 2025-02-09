@@ -1,21 +1,18 @@
-import { useEffect } from "react";
 import styles from "../../styles/modules/Dialog.module.scss";
 import Button from "../Button";
-import { useGame } from "./Game";
+import { GameStatus } from "../../types/GameType";
 
-const Dialog = () => {
-   const { gameStatus, player } = useGame();
+type DialogType = {
+   gameStatus: GameStatus | undefined;
+};
 
-   useEffect(() => {
-      console.log(gameStatus);
-   }, [gameStatus]);
-
+const Dialog = ({ gameStatus }: DialogType) => {
    return (
       <div className={styles.dialog}>
          <div>
             {gameStatus?.gameState === "won" && (
                <h4 className={styles.message}>
-                  {gameStatus?.winner === player
+                  {gameStatus?.winner === gameStatus?.player
                      ? "You won!"
                      : "Oh no, you lost..."}
                </h4>

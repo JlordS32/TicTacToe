@@ -6,8 +6,8 @@ export type BoardType = [
 ];
 export type GameState = "playing" | "won" | "draw";
 export type GameStatus = {
-   player: BoardSymbol;
-   gameState: GameState;
+player: BoardSymbol;
+gameState: GameState;
    winner: BoardSymbol | null;
 };
 export type Players = 1 | 2;

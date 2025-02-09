@@ -1,77 +1,31 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { BoardSymbol, EnemyPlayerType, GameStatus } from "../../types/GameType";
-import Board from "./Board";
-import Backdrop from "../Backdrop";
+import { useState } from "react";
+import { BoardSymbol, EnemyPlayerType } from "../../types/GameType";
 import Menu from "./Menu";
-import Dialog from "./Dialog";
+import { useNavigate } from "react-router";
 
-type GameContextType = {
-   gameStatus: GameStatus | undefined;
-   setGameStatus: React.Dispatch<React.SetStateAction<GameStatus | undefined>>;
+export type GameType = {
    player: BoardSymbol;
    enemyPlayer: BoardSymbol;
    enemyPlayerType: EnemyPlayerType;
-};
-
-const GameContext = createContext<GameContextType>({
-   gameStatus: undefined,
-   setGameStatus: () => {},
-   player: "X",
-   enemyPlayer: "O",
-   enemyPlayerType: "human",
-});
+}
 
 const Game = () => {
    const [playerMark, setPlayerMark] = useState<BoardSymbol>("X");
-   const [enemyPlayerType, setEnemyPlayerType] =
-      useState<EnemyPlayerType>("human");
-   const [gameStarted, setGameStarted] = useState<boolean>(false);
-   const [gameStatus, setGameStatus] = useState<GameStatus | undefined>(
-      undefined
-   );
+
+   // Navigate
+   const navigate = useNavigate();
 
    const handleMarkSelection = (mark: BoardSymbol): void => {
       setPlayerMark(mark);
    };
 
    const handleStartGame = (enemyPlayerType: EnemyPlayerType): void => {
-      setEnemyPlayerType(enemyPlayerType);
-      setGameStarted(true);
-   };
-
-   if (gameStarted) {
-      return (
-         <>
-            {gameStatus?.gameState === "won" ||
-            gameStatus?.gameState === "draw" ? (
-               <GameContext.Provider
-                  value={{
-                     gameStatus,
-                     setGameStatus,
-                     player: playerMark,
-                     enemyPlayer: playerMark === "X" ? "O" : "X",
-                     enemyPlayerType,
-                  }}
-               >
-                  <Backdrop>
-                     <Dialog />
-                  </Backdrop>
-               </GameContext.Provider>
-            ) : null}
-            <GameContext.Provider
-               value={{
-                  gameStatus,
-                  setGameStatus,
-                  player: playerMark,
-                  enemyPlayer: playerMark === "X" ? "O" : "X",
-                  enemyPlayerType,
-               }}
-            >
-               <Board />
-            </GameContext.Provider>
-         </>
+      navigate(
+         `board?player=${playerMark}&enemyPlayer=${
+            playerMark === "X" ? "O" : "X"
+         }&enemyPlayerType=${enemyPlayerType}`
       );
-   }
+   };
 
    return (
       <Menu
@@ -80,14 +34,6 @@ const Game = () => {
          handleStartGame={handleStartGame}
       />
    );
-};
-
-export const useGame = () => {
-   const context = useContext(GameContext);
-   if (!context) {
-      throw new Error("useGame must be used within a GameProvider");
-   }
-   return context;
 };
 
 export default Game;
