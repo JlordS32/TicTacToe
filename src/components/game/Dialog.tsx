@@ -1,14 +1,15 @@
 import styles from "../../styles/modules/Dialog.module.scss";
 import Button from "../Button";
-import { GameStatus } from "../../types/GameType";
+import { BoardSymbol, GameStatus } from "../../types/GameType";
 import { useNavigate } from "react-router";
 
 type DialogType = {
    gameStatus: GameStatus | undefined;
    goNextRound: () => void;
+   player: BoardSymbol;
 };
 
-const Dialog = ({ gameStatus, goNextRound }: DialogType) => {
+const Dialog = ({ player, gameStatus, goNextRound }: DialogType) => {
    const navigate = useNavigate();
 
    return (
@@ -16,7 +17,7 @@ const Dialog = ({ gameStatus, goNextRound }: DialogType) => {
          <div>
             {gameStatus?.gameState === "won" && (
                <h4 className={styles.message}>
-                  {gameStatus?.winner === gameStatus?.player
+                  {gameStatus?.winner === player
                      ? "You won!"
                      : "Oh no, you lost..."}
                </h4>

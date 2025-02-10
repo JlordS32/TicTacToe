@@ -20,6 +20,10 @@
    @include flex(column);
    gap: clamp(2.8rem, 1.5vw, 2.29rem);
    width: 32.85714rem;
+
+   @media screen and (max-width: 500px) {
+      width: 23rem;
+   }
 }
 
 .playerSelector {

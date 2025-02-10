@@ -190,7 +190,7 @@ const Board = ({ state, dispatch }: BoardProps) => {
          {gameStatus?.gameState === "won" ||
          gameStatus?.gameState === "draw" ? (
             <Backdrop>
-               <Dialog gameStatus={gameStatus} goNextRound={goNextRound} />
+               <Dialog player={player} gameStatus={gameStatus} goNextRound={goNextRound} />
             </Backdrop>
          ) : null}
          {restart && (
