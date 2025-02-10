@@ -34,7 +34,7 @@ h4 {
 
 h1,
 .heading-l {
-   font-size: 2.85714rem;
+   font-size: clamp(1.71429rem, 1.5vw, 2.85714rem);
    letter-spacing: 0.17857rem;
 }
 

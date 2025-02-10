@@ -29,6 +29,7 @@ import GameHeader from "./board/GameHeader";
 import GameBoard from "./board/GameBoard";
 import GameScoreboard from "./board/GameScoreboard";
 import RestartDialog from "../RestartDialog";
+import AudioManager from "../../utils/audio";
 
 // Global Constants
 const COMPUTER_THINKING_TIME = 500;
@@ -38,8 +39,6 @@ type BoardProps = {
    dispatch: React.Dispatch<Action>;
 };
 
-// TODO: Implement background music
-// BUG: BG Music duplicates when going back to menu and playing again.
 // TODO: Finish media queries for mobile
 const Board = ({ state, dispatch }: BoardProps) => {
    // Ref to track initial render
@@ -54,11 +53,10 @@ const Board = ({ state, dispatch }: BoardProps) => {
       row: number;
       col: number;
    } | null>(null);
-   const [musicStarted, setMusicStarted] = useState<boolean>(false);
 
    // Audio
    const clip = new Audio("/audio/click_sfx.mp3");
-   const backgroundMusic = useRef(new Audio("/audio/bg.mp3"));
+   const audioManager = AudioManager.getInstance();
 
    // URL Params
    const location = useLocation();
@@ -164,12 +162,8 @@ const Board = ({ state, dispatch }: BoardProps) => {
       }
    }, [currentPlayer]);
 
-   const startMusic = (): void => {
-      if (musicStarted) return;
-      
-      setMusicStarted(true);
-      backgroundMusic.current.loop = true;
-      backgroundMusic.current.play();
+   const startMusic = () => {
+      audioManager.playMusic();
    };
 
    // Set starting player
@@ -186,6 +180,10 @@ const Board = ({ state, dispatch }: BoardProps) => {
       }
       clip.play();
    }, [state.board]);
+
+   useEffect(() => {
+      audioManager.playMusic();
+   }, []);
 
    return (
       <>
@@ -208,7 +206,14 @@ const Board = ({ state, dispatch }: BoardProps) => {
                />
             </Backdrop>
          )}
-         <div className={styles.boardContainer} onClick={() => startMusic()}>
+         <div
+            className={styles.boardContainer}
+            onClick={() => {
+               if (!audioManager.isPlaying) {
+                  startMusic();
+               }
+            }}
+         >
             <GameHeader
                currentPlayer={currentPlayer}
                restartGame={() => {

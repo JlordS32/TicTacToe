@@ -2,6 +2,8 @@ import styles from "../../../styles/modules/Board.module.scss";
 
 // Types
 import { BoardSymbol, BoardType } from "../../../types/GameType";
+import OIcon from "../../svgs/OIcon";
+import XIcon from "../../svgs/XIcon";
 
 type GameBoardType = {
    board: BoardType;
@@ -47,8 +49,8 @@ const GameBoard = ({
                      currentPlayer === "O" && (
                         <img src="/images/icon-o-outline.svg" alt="O Outline" />
                      )}
-                  {cell === "X" && <img src="/images/icon-x.svg" alt="X" />}
-                  {cell === "O" && <img src="/images/icon-o.svg" alt="O" />}
+                  {cell === "X" && <XIcon color="var(--blue-green)" />}
+                  {cell === "O" && <OIcon color="var(--yellow)" />}
                </div>
             ))
          )}
