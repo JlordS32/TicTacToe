@@ -5,6 +5,8 @@ import NotFound from "./pages/NotFound";
 import Board from "./components/game/Board";
 import { State, Action } from "./types/ReducerType";
 import { useEffect, useReducer } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const initialState: State = {
    board: [
@@ -75,16 +77,30 @@ const App = () => {
    }, [state.board]);
 
    return (
-      <main className={styles.main}>
-         <Routes>
-            <Route path="/" element={<Game />} />
-            <Route path="/*" element={<NotFound />} />
-            <Route
-               path="/board"
-               element={<Board state={state} dispatch={dispatch} />}
-            />
-         </Routes>
-      </main>
+      <>
+         <main className={styles.main}>
+            <Routes>
+               <Route path="/" element={<Game />} />
+               <Route path="/*" element={<NotFound />} />
+               <Route
+                  path="/board"
+                  element={<Board state={state} dispatch={dispatch} />}
+               />
+            </Routes>
+         </main>
+         <footer className={styles.footer}>
+            <h3>
+               Coded by: &nbsp;
+               <a
+                  href="https://github.com/JlordS32"
+                  target="_blank"
+                  rel="noopener noreferrer"
+               >
+                  <FontAwesomeIcon icon={faGithub} /> Jaylou Rasonabe
+               </a>
+            </h3>
+         </footer>
+      </>
    );
 };
 
