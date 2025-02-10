@@ -26,7 +26,7 @@ const GameBoard = ({
             row.map((cell, cellIndex) => (
                <div
                   key={cellIndex}
-                  className={styles.cell}
+                  className={`${styles.cell} ${cell !== "" && styles.animate}`}
                   onClick={() => handleClick(rowIndex, cellIndex)}
                   onMouseEnter={() =>
                      setHoveredCell({ row: rowIndex, col: cellIndex })

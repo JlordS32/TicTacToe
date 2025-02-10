@@ -7,12 +7,17 @@
    background-color: var(--silver);
    color: var(--dark-navy);
    cursor: pointer;
-   transition: all 0.2s ease-in;
-   box-shadow: 0px -4px 0px 0px #6B8997 inset;
+   box-shadow: 0px -4px 0px 0px #6b8997 inset;
 
    &:hover {
       transform: scale(1.025);
       background-color: var(--soft-silver);
+
+      svg {
+         transition: transform 0.2s ease; 
+         transform: rotate(180deg);
+      }
+
    }
 
    &:active {

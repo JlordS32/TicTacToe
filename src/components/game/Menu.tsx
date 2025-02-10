@@ -15,6 +15,9 @@ const Menu = ({
    handleMarkSelection,
    handleStartGame,
 }: MenuType) => {
+   const sfx = new Audio("/audio/menu_select.wav");
+   const buttonClick = new Audio("/audio/click_sfx.mp3");
+
    return (
       <div className={styles.container}>
          <div className={styles.logo}>
@@ -27,7 +30,10 @@ const Menu = ({
                   className={`${styles.XPlayer} ${
                      playerMark === "X" ? styles.active : ""
                   }`}
-                  onClick={() => handleMarkSelection("X")}
+                  onClick={() => {
+                     handleMarkSelection("X");
+                     sfx.play();
+                  }}
                >
                   <XIcon />
                </div>
@@ -35,7 +41,10 @@ const Menu = ({
                   className={`${styles.OPlayer} ${
                      playerMark === "O" ? styles.active : ""
                   }`}
-                  onClick={() => handleMarkSelection("O")}
+                  onClick={() => {
+                     handleMarkSelection("O");
+                     sfx.play();
+                  }}
                >
                   <OIcon />
                </div>
@@ -47,7 +56,10 @@ const Menu = ({
                type="primary"
                version="one"
                text="New Game (VS CPU)"
-               onClick={() => handleStartGame("computer")}
+               onClick={() => {
+                  handleStartGame("computer");
+                  buttonClick.play();
+               }}
             />
             <Button
                type="primary"
@@ -55,6 +67,7 @@ const Menu = ({
                text="New Game (VS Player)"
                onClick={() => {
                   handleStartGame("human");
+                  buttonClick.play();
                }}
             />
          </div>

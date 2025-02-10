@@ -2,7 +2,7 @@
 import styles from "../../styles/modules/Board.module.scss";
 
 // Hooks
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
 
 // Types
@@ -38,7 +38,13 @@ type BoardProps = {
    dispatch: React.Dispatch<Action>;
 };
 
+// TODO: Implement background music
+// BUG: BG Music duplicates when going back to menu and playing again.
+// TODO: Finish media queries for mobile
 const Board = ({ state, dispatch }: BoardProps) => {
+   // Ref to track initial render
+   const isFirstRender = useRef(true);
+
    // Hooks
    const [gameStatus, setGameStatus] = useState<GameStatus | undefined>(
       undefined
@@ -48,6 +54,11 @@ const Board = ({ state, dispatch }: BoardProps) => {
       row: number;
       col: number;
    } | null>(null);
+   const [musicStarted, setMusicStarted] = useState<boolean>(false);
+
+   // Audio
+   const clip = new Audio("/audio/click_sfx.mp3");
+   const backgroundMusic = useRef(new Audio("/audio/bg.mp3"));
 
    // URL Params
    const location = useLocation();
@@ -63,35 +74,28 @@ const Board = ({ state, dispatch }: BoardProps) => {
    // Destructuring
    const { board, currentPlayer, computerThinking } = state;
 
-   function updateState(field: keyof State, value: State[keyof State]): void {
+   const updateState = (
+      field: keyof State,
+      value: State[keyof State]
+   ): void => {
       dispatch({ type: "SET", field, value });
-   }
+   };
 
    // Reset game
-   function resetState(fullReset: boolean = false): void {
-      dispatch({
-         type: "SET",
-         field: "board",
-         value: [
-            ["", "", ""],
-            ["", "", ""],
-            ["", "", ""],
-         ],
-      });
-      dispatch({ type: "SET", field: "currentPlayer", value: "X" });
+   const resetState = (): void => {
+      updateState("board", [
+         ["", "", ""],
+         ["", "", ""],
+         ["", "", ""],
+      ]);
+      updateState("currentPlayer", player);
+      updateState("round", 0);
+      updateState("score", { x: 0, o: 0, ties: 0 });
       setGameStatus(undefined);
-      
-      if (fullReset) {
-         dispatch({
-            type: "SET",
-            field: "score",
-            value: { x: 0, o: 0, ties: 0 },
-         });
-      }
-   }
+   };
 
    // Go next round
-   function goNextRound() {
+   const goNextRound = (): void => {
       resetState();
       updateState("round", state.round + 1);
 
@@ -109,10 +113,10 @@ const Board = ({ state, dispatch }: BoardProps) => {
             ["ties"]: state.score["ties"] + 1,
          });
       }
-   }
+   };
 
    // Player Move
-   function handleClick(rowIndex: number, cellIndex: number): void {
+   const handleClick = (rowIndex: number, cellIndex: number): void => {
       if (
          gameStatus?.gameState === "won" ||
          board[rowIndex][cellIndex] !== "" ||
@@ -133,8 +137,7 @@ const Board = ({ state, dispatch }: BoardProps) => {
          currentPlayer === player ? player : enemyPlayer
       );
       setGameStatus(status);
-   }
-
+   };
    // Computer Move
    useEffect(() => {
       if (enemyPlayerType === "human") return;
@@ -161,10 +164,28 @@ const Board = ({ state, dispatch }: BoardProps) => {
       }
    }, [currentPlayer]);
 
+   const startMusic = (): void => {
+      if (musicStarted) return;
+      
+      setMusicStarted(true);
+      backgroundMusic.current.loop = true;
+      backgroundMusic.current.play();
+   };
+
    // Set starting player
    useEffect(() => {
       setGameStatus(handleGameStates(board, player));
-   }, [])
+   }, []);
+
+   // Listen to game
+   useEffect(() => {
+      if (isFirstRender.current) {
+         // Skip sound on initial render
+         isFirstRender.current = false;
+         return;
+      }
+      clip.play();
+   }, [state.board]);
 
    return (
       <>
@@ -182,15 +203,15 @@ const Board = ({ state, dispatch }: BoardProps) => {
                   }}
                   resetState={() => {
                      setRestart(false);
-                     resetState(true);
+                     resetState();
                   }}
                />
             </Backdrop>
          )}
-         <div className={styles.boardContainer}>
+         <div className={styles.boardContainer} onClick={() => startMusic()}>
             <GameHeader
                currentPlayer={currentPlayer}
-               resetState={() => {
+               restartGame={() => {
                   setRestart(true);
                }}
             />

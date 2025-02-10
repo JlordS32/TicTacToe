@@ -14,14 +14,17 @@ import RetryButton from "../../RetryButton";
 
 type GameHeaderType = {
    currentPlayer: BoardSymbol;
-   resetState: () => void;
+   restartGame: () => void;
 };
 
-const GameHeader = ({ currentPlayer, resetState }: GameHeaderType) => {
+const GameHeader = ({
+   currentPlayer,
+   restartGame,
+}: GameHeaderType) => {
    return (
       <div className={styles.header}>
          <div className={styles.logo}>
-            <Link to="/" onClick={() => resetState()}>
+            <Link to="/">
                <img src="/images/logo.svg" alt="Logo" />
             </Link>
          </div>
@@ -30,7 +33,7 @@ const GameHeader = ({ currentPlayer, resetState }: GameHeaderType) => {
             <h4>Turn</h4>
          </div>
          <div className={styles.retry}>
-            <RetryButton onClick={resetState} />
+            <RetryButton onClick={restartGame} />
          </div>
       </div>
    );
